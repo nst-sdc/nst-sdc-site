@@ -11,19 +11,19 @@
 ```
 sdc/
 ├── app/
-│   ├── layout.tsx          # Root layout with fonts
-│   ├── page.tsx            # Home page
-│   └── globals.css         # Global styles
+│   ├── layout.tsx          
+│   ├── page.tsx            
+│   └── globals.css         
 ├── components/
-│   ├── hero-section.tsx    # Hero with magnetic text
-│   ├── background-animation.tsx  # Floating elements
-│   ├── work-section.tsx    # What we do section
-│   ├── projects-section.tsx # Projects showcase
-│   ├── team-section.tsx    # Team members
-│   ├── footer.tsx          # Footer component
-│   └── sidebar-nav.tsx     # Navigation sidebar
+│   ├── hero-section.tsx    
+│   ├── background-animation.tsx  
+│   ├── work-section.tsx    
+│   ├── projects-section.tsx 
+│   ├── team-section.tsx    
+│   ├── footer.tsx          
+│   └── sidebar-nav.tsx     
 ├── data/
-│   ├── projects.ts         # Project data
-│   └── team.ts            # Team member data
-└── public/                 # Static assets
+│   ├── projects.ts         
+│   └── team.ts            
+└── public/                 
 ```
