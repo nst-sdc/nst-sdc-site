@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Quick Snatch",
+    "description": "Campus-wide treasure hunt platform with GPS tracking, QR code scanning, and real-time team coordination features.",
+    "tech": ["React Native", "Firebase", "Google Maps API"],
+    "thumbnail": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+    "github": "https://github.com/nst-sdc/quick-snatch"
+  },
+  {
+    "title": "NST-SDC Website",
+    "description": "Official community website showcasing projects, team members, and upcoming events with modern design.",
+    "tech": ["Next.js", "Tailwind CSS", "Framer Motion"],
+    "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    "github": "https://github.com/nst-sdc/site",
+    "live": "https://nstsdc.org"
+  },
+  {
+    "title": "Campus Buddy",
+    "description": "A centralized platform for NST students and clubs to discover, manage, and track campus events — keeping everyone informed, engaged, and connected.",
+    "tech": ["Next.js", "Tailwind CSS", "Framer Motion"],
+    "thumbnail": "https://images.unsplash.com/photo-1622604647545-0cada2f34470?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2350",
+    "github": "https://github.com/nst-sdc/Campus-Buddy",
+    "live": "https://nstsdc.org"
+  }
+]
