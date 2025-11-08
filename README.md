@@ -1,10 +1,11 @@
 # NST-SDC Dev Club Website
 
+
 ## Tech Stack
 
--  Next.js 14 
--  TypeScript
--  Tailwind CSS
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
 
 ## Project Structure
 
@@ -13,17 +14,16 @@ sdc/
 ├── app/
 │   ├── layout.tsx          
 │   ├── page.tsx            
+│   ├── work/page.tsx       
+│   ├── projects/page.tsx   
+│   ├── team/page.tsx       
+│   ├── gallery/page.tsx    
 │   └── globals.css         
 ├── components/
-│   ├── hero-section.tsx    
-│   ├── background-animation.tsx  
-│   ├── work-section.tsx    
-│   ├── projects-section.tsx 
-│   ├── team-section.tsx    
-│   ├── footer.tsx          
-│   └── sidebar-nav.tsx     
-├── data/
-│   ├── projects.ts         
-│   └── team.ts            
-└── public/                 
+│   ├── background-animation.tsx
+│   ├── footer.tsx
+│   ├── hero-section.tsx
+│   ├── sidebar-nav.tsx
+│   └── theme-toggle-button.tsx
+└── public/
 ```

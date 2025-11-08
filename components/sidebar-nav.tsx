@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   Home,
@@ -15,113 +16,79 @@ import {
 import clsx from 'clsx'
 
 const sections = [
-  { id: 'home', label: 'Home', icon: Home },
-  { id: 'work', label: 'Work', icon: BriefcaseBusiness },
-  { id: 'projects', label: 'Projects', icon: Laptop },
-  { id: 'team', label: 'Team', icon: Users },
-  { id: 'gallery', label: 'Gallery', icon: Images },
+  { id: 'home', label: 'Home', icon: Home, path: '/' },
+  { id: 'work', label: 'Work', icon: BriefcaseBusiness, path: '/work' },
+  { id: 'projects', label: 'Projects', icon: Laptop, path: '/projects' },
+  { id: 'team', label: 'Team', icon: Users, path: '/team' },
+  { id: 'gallery', label: 'Gallery', icon: Images, path: '/gallery' },
 ] as const
 
 export type SectionId = (typeof sections)[number]['id']
 
 export function SidebarNav() {
-  const [activeSection, setActiveSection] = useState<SectionId>('home')
+  const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [heroInView, setHeroInView] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isDark, setIsDark] = useState(false)
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
-    const hero = document.getElementById('home')
-    if (hero) {
-      const heroObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            setHeroInView(entry.isIntersecting)
-          })
-        },
-        {
-          threshold: 0.4,
-        }
-      )
-
-      heroObserver.observe(hero)
-
-      return () => heroObserver.disconnect()
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
     }
-  }, [])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id') as SectionId | null
-            if (id) {
-              setActiveSection(id)
-            }
-          } else {
-            const body = document.body
-            const needsBlur = window.scrollY > 40
-            if (needsBlur) {
-              body.classList.add('nav-blur')
-            } else {
-              body.classList.remove('nav-blur')
-            }
-          }
-        })
-      },
-      {
-        rootMargin: '-40% 0px -50% 0px',
-        threshold: 0.2,
-      }
-    )
-
-    const targets = sections
-      .map(({ id }) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el))
-
-    targets.forEach((el) => observer.observe(el))
-
+    checkTheme()
+    
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    
     return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const body = document.body
-      const needsBlur = window.scrollY > 40
-      if (needsBlur) {
-        body.classList.add('nav-blur')
-      } else {
-        body.classList.remove('nav-blur')
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const NavItems = (
     <ul className="flex flex-col items-center justify-center gap-6">
-      {sections.map(({ id, label, icon: Icon }) => {
-        const isActive = activeSection === id
+      {sections.map(({ id, label, icon: Icon, path }) => {
+        const isActive = pathname === path
         return (
           <li key={id}>
-            <Link href={`#${id}`} scroll>
+            <Link href={path}>
               <motion.span
                 className={clsx(
-                  'group relative flex h-20 w-20 items-center justify-center rounded-[2.5rem] transition-all',
-                  'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-100'
+                  'group relative flex h-20 w-20 items-center justify-center rounded-[2.5rem] transition-all border-2',
+                  isDark 
+                    ? isActive 
+                      ? 'bg-[#ffeb3b] text-[#1a1a1a] border-[#ffeb3b]' 
+                      : 'bg-[#1a1a1a] text-[#ffeb3b] border-[#ffeb3b] hover:bg-[#ffeb3b]/10'
+                    : isActive 
+                      ? 'bg-black text-white border-black' 
+                      : 'bg-[#f5f3ef] text-black border-black hover:bg-black/5'
                 )}
                 whileHover={{ scale: 1.05 }}
               >
                 {isActive && (
                   <motion.span
                     layoutId="nav-glow"
-                    className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-blue-500 to-blue-700 shadow-glow"
+                    className={clsx(
+                      "absolute inset-0 rounded-[2.5rem]",
+                      isDark ? "bg-[#ffeb3b]/20" : "bg-black/10"
+                    )}
                     transition={{ type: 'spring', stiffness: 260, damping: 24 }}
                   />
                 )}
                 <Icon className="relative z-10 h-8 w-8" />
                 <span className="sr-only">{label}</span>
+                
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  whileHover={{ opacity: 1, x: 0 }}
+                  className={clsx(
+                    "absolute left-24 whitespace-nowrap px-3 py-1.5 rounded-lg text-sm font-medium pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity border",
+                    isDark 
+                      ? "bg-[#1a1a1a] text-[#ffeb3b] border-[#ffeb3b]" 
+                      : "bg-[#f5f3ef] text-black border-black"
+                  )}
+                >
+                  {label}
+                </motion.span>
               </motion.span>
             </Link>
           </li>
@@ -132,13 +99,40 @@ export function SidebarNav() {
 
   return (
     <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? 0 : 1 }}
+        transition={{ duration: 0.2 }}
+        onMouseEnter={() => setIsHovered(true)}
+        className="fixed left-8 top-1/2 z-50 hidden -translate-y-1/2 lg:flex"
+      >
+        <div className="flex flex-col gap-2">
+          <div className={clsx(
+            "h-3 w-3 rounded-full transition-all duration-300",
+            isDark ? "bg-[#ffeb3b]" : "bg-black"
+          )} />
+          <div className={clsx(
+            "h-3 w-3 rounded-full transition-all duration-300",
+            isDark ? "bg-[#ffeb3b]" : "bg-black"
+          )} />
+          <div className={clsx(
+            "h-3 w-3 rounded-full transition-all duration-300",
+            isDark ? "bg-[#ffeb3b]" : "bg-black"
+          )} />
+        </div>
+      </motion.div>
+
       <motion.nav
         initial={{ x: -100, opacity: 0 }}
-        animate={{ x: heroInView ? -120 : 0, opacity: heroInView ? 0 : 1 }}
+        animate={{ 
+          x: isHovered ? 0 : -120, 
+          opacity: isHovered ? 1 : 0 
+        }}
         transition={{ type: 'spring', stiffness: 160, damping: 24 }}
+        onMouseLeave={() => setIsHovered(false)}
         className={clsx(
-          'fixed left-8 top-1/3 hidden w-28 -translate-y-1/3 lg:flex',
-          heroInView ? 'pointer-events-none opacity-0' : 'pointer-events-auto opacity-100'
+          'fixed left-8 top-1/3 hidden w-28 -translate-y-1/3 lg:flex z-50',
+          !isHovered ? 'pointer-events-none' : 'pointer-events-auto'
         )}
       >
         <div className="flex w-full flex-col items-center justify-center">
@@ -149,29 +143,45 @@ export function SidebarNav() {
 
       <motion.div
         initial={{ y: -40, opacity: 0 }}
-        animate={{ y: heroInView ? -40 : 0, opacity: heroInView ? 0 : 1 }}
+        animate={{ y: isHomePage ? -40 : 0, opacity: isHomePage ? 0 : 1 }}
         transition={{ type: 'spring', stiffness: 180, damping: 18 }}
         className={clsx(
-          'fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/90 lg:hidden',
-          heroInView ? 'pointer-events-none' : 'pointer-events-auto'
+          'fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b px-4 py-3 backdrop-blur-xl lg:hidden',
+          isDark 
+            ? 'border-[#ffeb3b]/30 bg-[#1a1a1a]/90' 
+            : 'border-black/20 bg-[#f5f3ef]/90',
+          isHomePage ? 'pointer-events-none' : 'pointer-events-auto'
         )}
       >
         <div className="inline-flex items-center gap-2">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+          <span className={clsx(
+            "inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold border",
+            isDark 
+              ? "bg-[#ffeb3b] text-[#1a1a1a] border-[#ffeb3b]" 
+              : "bg-black text-white border-black"
+          )}>
             DC
           </span>
-          <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">Dev Club</span>
+          <span className={clsx(
+            "text-lg font-semibold",
+            isDark ? "text-[#ffeb3b]" : "text-black"
+          )}>Dev Club</span>
         </div>
         <button
           type="button"
           aria-label="Toggle navigation"
           onClick={() => setMobileOpen((prev) => !prev)}
-          className="glass-panel glass-hover flex items-center rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          className={clsx(
+            "flex items-center rounded-full border px-3 py-2 transition-all",
+            isDark 
+              ? "border-[#ffeb3b] bg-[#1a1a1a] text-[#ffeb3b] hover:bg-[#ffeb3b]/10" 
+              : "border-black bg-[#f5f3ef] text-black hover:bg-black/5"
+          )}
         >
           {mobileOpen ? (
-            <X className="h-5 w-5 text-accent-neon" />
+            <X className="h-5 w-5" />
           ) : (
-            <Menu className="h-5 w-5 text-accent-neon" />
+            <Menu className="h-5 w-5" />
           )}
         </button>
       </motion.div>
@@ -183,29 +193,41 @@ export function SidebarNav() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="fixed inset-x-4 top-20 z-40 rounded-3xl border border-slate-200 bg-white/95 p-5 backdrop-blur-2xl dark:border-slate-700 dark:bg-slate-900/95 lg:hidden"
+            className={clsx(
+              "fixed inset-x-4 top-20 z-40 rounded-3xl border p-5 backdrop-blur-2xl lg:hidden",
+              isDark 
+                ? "border-[#ffeb3b]/30 bg-[#1a1a1a]/95" 
+                : "border-black/20 bg-[#f5f3ef]/95"
+            )}
           >
             <div className="grid grid-cols-3 gap-4">
-              {sections.map(({ id, label, icon: Icon }) => {
-                const isActive = activeSection === id
+              {sections.map(({ id, label, icon: Icon, path }) => {
+                const isActive = pathname === path
                 return (
                   <Link
                     key={id}
-                    href={`#${id}`}
-                    scroll
+                    href={path}
                     className="group flex flex-col items-center gap-2"
                     onClick={() => setMobileOpen(false)}
                   >
                     <motion.span
                       className={clsx(
-                        'flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-100 text-slate-600 transition-colors dark:bg-slate-800 dark:text-slate-300',
-                        isActive && 'bg-gradient-to-br from-blue-500 to-blue-700 text-white'
+                        'flex h-16 w-16 items-center justify-center rounded-3xl border transition-colors',
+                        isDark 
+                          ? 'bg-[#1a1a1a] text-[#ffeb3b] border-[#ffeb3b]' 
+                          : 'bg-[#f5f3ef] text-black border-black',
+                        isActive && (isDark 
+                          ? 'bg-[#ffeb3b] text-[#1a1a1a] shadow-[0_0_20px_rgba(255,235,59,0.5)]' 
+                          : 'bg-black text-white shadow-[0_0_20px_rgba(0,0,0,0.2)]')
                       )}
                       whileTap={{ scale: 0.96 }}
                     >
                       <Icon className="h-6 w-6" />
                     </motion.span>
-                    <span className="text-xs text-slate-600 dark:text-slate-400">{label}</span>
+                    <span className={clsx(
+                      "text-xs",
+                      isDark ? "text-[#ffeb3b]" : "text-black"
+                    )}>{label}</span>
                   </Link>
                 )
               })}
