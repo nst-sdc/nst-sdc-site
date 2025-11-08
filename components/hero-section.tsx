@@ -87,7 +87,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className={`hero-creative ${isDark ? 'dark-mood' : 'light-mood'}`}>
+    <section id="home" className={`hero-creative ${isDark ? 'dark-mood' : 'light-mood'}`}>
       <BackgroundAnimation />
       <motion.header 
         className="hero-header"
@@ -119,7 +119,7 @@ export function HeroSection() {
           transition={{ delay: 0.4, duration: 1 }}
         >
           {/* <span className="title-line">{splitText('NST')}</span> */}
-          <span className="title-line title-highlight">{splitText("NST SDC DEV CLUB")}</span>
+          <span className="title-line title-highlight">{splitText("NST Student Dev Club")}</span>
           {/* <span className="title-line">{splitText('Pune')}</span> */}
         </motion.h1>
         <motion.div 

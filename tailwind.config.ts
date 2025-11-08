@@ -12,8 +12,8 @@ const config: Config = {
       colors: {
         background: '#ffffff',
         accent: {
-          light: '#3b82f6',      // Blue for light mode
-          dark: '#ffeb3b',       // Yellow for dark mode
+          light: '#3b82f6',
+          dark: '#ffeb3b',
           neon: '#3b82f6',
           cyan: '#3b82f6',
           deep: '#1e293b',

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { Inter, Poppins } from 'next/font/google'
+import { SidebarNav } from '@/components/sidebar-nav'
+import { Footer } from '@/components/footer'
 import './globals.css'
 
 const poppins = Poppins({
@@ -31,7 +33,11 @@ export default function RootLayout({
       <body
         className={`relative min-h-screen bg-background text-white scrollbar-thin ${poppins.variable} ${inter.variable}`}
       >
-        {children}
+        <SidebarNav />
+        <div className="relative flex min-h-screen flex-col">
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </div>
       </body>
     </html>
   )
