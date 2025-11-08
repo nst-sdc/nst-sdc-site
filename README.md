@@ -3,7 +3,7 @@
 
 ## Tech Stack
 
-- Next.js 14 (App Router)
+- Next.js 14
 - TypeScript
 - Tailwind CSS
 
