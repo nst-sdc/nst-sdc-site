@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #0A0F2D;
+    color: #fff;
+}
+.gallery-section {
+    padding: 70px 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #00C4FF, #5D5FEF);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    margin: 10px 0 15px;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.title-decoration {
+    width: 70px;
+    height: 4px;
+    margin: 10px auto;
+    background: linear-gradient(90deg, #00C4FF, #5D5FEF);
+    border-radius: 20px;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+
+.gallery-image {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.gallery-card:hover .gallery-image {
+    transform: scale(1.1);
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-card:hover .overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+}
+
+.caption {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.view-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    animation: fade 0.4s ease;
+}
+
+.lightbox-content {
+    position: relative;
+    z-index: 10;
+    max-width: 90%;
+    animation: pop 0.4s ease;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.lightbox-caption {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: -40px;
+    right: -10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); }
+    to { transform: scale(1); }
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}

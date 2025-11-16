@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Club - Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./gallery.css">
+</head>
+
+<body>
+    <section class="gallery-section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="main-title">
+                    Our Gallery – <span class="gradient-text">Web Development Club</span>
+                </h1>
+                <p class="subtitle">
+                    Snapshots from our events, workshops & hackathons.
+                </p>
+                <div class="title-decoration"></div>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="gallery-item" data-index="0">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1565687981296-535f09db714e?auto=format&fit=crop&w=1080&q=80"
+                            alt="Hackathon 2024"
+                            class="gallery-image">
+            
+                       <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">Hackathon 2024</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-index="1">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1558301204-e3226482a77b?auto=format&fit=crop&w=1080&q=80"
+                            alt="React Workshop"
+                            class="gallery-image"
+                        >
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">React Workshop</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-index="2">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1560439514-0fc9d2cd5e1b?auto=format&fit=crop&w=1080&q=80"
+                            alt="Tech Conference 2024"
+                            class="gallery-image"
+                        >
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">Tech Conference 2024</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-index="3">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1693386556810-43d9451bdda5?auto=format&fit=crop&w=1080&q=80"
+                            alt="Team Collaboration"
+                            class="gallery-image"
+                        >
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">Team Collaboration</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-index="4">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1603985585179-3d71c35a537c?auto=format&fit=crop&w=1080&q=80"
+                            alt="Coding Session"
+                            class="gallery-image"
+                        >
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">Coding Session</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-index="5">
+                    <div class="gallery-card">
+                        <img 
+                            src="https://images.unsplash.com/photo-1723987135977-ae935608939e?auto=format&fit=crop&w=1080&q=80"
+                            alt="Code Competition"
+                            class="gallery-image"
+                        >
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3 class="caption">Code Competition</h3>
+                                <div class="view-btn">View Image</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-backdrop"></div>
+
+        <div class="lightbox-content">
+
+            <button class="close-btn" id="closeBtn" aria-label="Close">
+                ✖
+            </button>
+
+            <div class="lightbox-image-wrapper">
+                <img id="lightboxImage" src="" alt="" class="lightbox-image">
+                <p id="lightboxCaption" class="lightbox-caption"></p>
+            </div>
+
+        </div>
+    </div>
+    <script src="./gallery.js"></script>
+
+</body>
+</html>
