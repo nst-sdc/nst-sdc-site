@@ -866,14 +866,13 @@ export function BackgroundAnimation() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Constants per spec
-    const MAX_ELEMENTS = 50
-    const BASE_ALPHA = 0.7
-    const SWAY_AMPLITUDE = 8
-    // --- CHANGE 1: Adjusted speed range ---
-    const SPEED_RANGE: [number, number] = [0.4, 0.6]
-    const DEPTH_RANGE: [number, number] = [0.6, 1.5]
-    const FADE_THRESHOLD = 80
+    // Performance-optimized constants
+    const MAX_ELEMENTS = 30 // Reduced number of elements for better performance
+    const BASE_ALPHA = 0.7 // Slightly increased alpha for better visibility with fewer elements
+    const SWAY_AMPLITUDE = 10 // Reduced sway for better performance
+    const SPEED_RANGE: [number, number] = [1.0, 1.8] // Slightly reduced speed range
+    const DEPTH_RANGE: [number, number] = [0.6, 1.5] // Narrower depth range for better performance
+    const FADE_THRESHOLD = 80 // Standard fade threshold
 
     const rng = (min: number, max: number) => min + Math.random() * (max - min)
 
@@ -999,8 +998,8 @@ export function BackgroundAnimation() {
 
       const isDark = document.documentElement.classList.contains('dark')
 
-      // global soft-light blending for calm glow
-      ctx.globalCompositeOperation = 'soft-light'
+      // Use simpler blending for better performance
+      ctx.globalCompositeOperation = 'source-over'
 
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i]
@@ -1012,12 +1011,12 @@ export function BackgroundAnimation() {
         const speed = (el!.speed || 0.4) * (1 / el.depth)
         const size = (el.baseSize || 14) * el.depth
 
-        // upward motion
-        el.y -= speed
+        // upward motion with depth-based speed variation
+        el.y -= speed * 1.2 // Slightly increase vertical speed
 
-        // horizontal sway
-        const sway = Math.sin(now * 0.002 + (el.phase || 0)) * SWAY_AMPLITUDE * el.depth
-        el.x += sway * 0.05 // apply gently per frame
+        // horizontal sway with smoother motion
+        const sway = Math.sin(now * 0.0015 + (el.phase || 0)) * SWAY_AMPLITUDE * el.depth
+        el.x += (sway - (el.x - canvas.width/2) * 0.0005) * 0.1 // Center-seeking behavior
 
         // fade near top
         if (el.y < FADE_THRESHOLD) {
@@ -1026,29 +1025,34 @@ export function BackgroundAnimation() {
 
         // recycle once fully faded or off top
         if (el.alpha <= 0 || el.y < -40) {
+          // Recycle with more variety in positioning and timing
           el.depth = rng(DEPTH_RANGE[0], DEPTH_RANGE[1])
           el.speed = rng(SPEED_RANGE[0], SPEED_RANGE[1])
           el.phase = Math.random() * Math.PI * 2
-          el.x = rng(0, canvas.width)
-          el.y = canvas.height + rng(0, canvas.height * 0.3)
+          el.x = rng(-100, canvas.width + 100) // Allow some overflow on sides
+          el.y = canvas.height + rng(0, canvas.height * 0.5) // More spread in initial Y position
           el.alpha = BASE_ALPHA * el.depth
-          el.delay = rng(0, 1200)
+          el.delay = rng(0, 800) // Shorter delay for more frequent recycling
         }
 
-        // optional proximity hover brightening
+        // enhanced proximity hover effect
         const dx = el.x - mouseRef.current.x
         const dy = el.y - mouseRef.current.y
-        const dist2 = dx * dx + dy * dy
-        const hoverBoost = dist2 < 120 * 120 ? 1.0 : 0
-        const alpha = Math.min(1, (el.alpha ?? BASE_ALPHA) + hoverBoost * 0.2)
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const hoverBoost = dist < 180 ? 1.0 - (dist / 180) : 0
+        const alpha = Math.min(1, (el.alpha ?? BASE_ALPHA) + hoverBoost * 0.3) // Increased hover effect
 
         // draw
         ctx.save()
         ctx.translate(el.x, el.y)
 
-        // subtle shadow tied to depth
-        ctx.shadowBlur = 10 * el.depth
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.15)'
+        // Only apply shadow on hover for better performance
+        if (hoverBoost > 0.5) {
+          ctx.shadowBlur = 10 * el.depth
+          ctx.shadowColor = 'rgba(255, 255, 255, 0.15)'
+        } else {
+          ctx.shadowBlur = 0
+        }
 
         ctx.globalAlpha = alpha
 
