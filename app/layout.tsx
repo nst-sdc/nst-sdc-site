@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Inter, Poppins } from 'next/font/google'
 import { SidebarNav } from '@/components/sidebar-nav'
 import { Footer } from '@/components/footer'
+import SmoothScrollProvider from '@/components/smooth-scroll-provider'
 import './globals.css'
 
 const poppins = Poppins({
@@ -29,15 +30,15 @@ export default function RootLayout({
   children: ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`relative min-h-screen bg-background text-white scrollbar-thin ${poppins.variable} ${inter.variable}`}
-      >
-        <SidebarNav />
-        <div className="relative flex min-h-screen flex-col">
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <body className="min-h-screen bg-background font-sans antialiased">
+        <SmoothScrollProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <SidebarNav />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
+        </SmoothScrollProvider>
       </body>
     </html>
   )
