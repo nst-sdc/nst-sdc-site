@@ -118,9 +118,8 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 1 }}
         >
-          {/* <span className="title-line">{splitText('NST')}</span> */}
-          <span className="title-line title-highlight">{splitText("NST Student Dev Club")}</span>
-          {/* <span className="title-line">{splitText('Pune')}</span> */}
+          <span className="title-line title-highlight">{splitText("NST STUDENT")}</span>
+          <span className="title-line title-highlight">{splitText("DEV CLUB")}</span>
         </motion.h1>
         <motion.div
           className="hero-tagline"

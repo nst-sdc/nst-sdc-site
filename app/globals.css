@@ -190,7 +190,6 @@ body {
 
 .title-line {
   display: block;
-  margin-left: 200px;
   font-size: clamp(4rem, 12vw, 10rem);
   font-weight: 900;
   letter-spacing: -0.04em;
