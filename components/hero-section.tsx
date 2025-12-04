@@ -87,7 +87,7 @@ export function HeroSection() {
   }
 
   return (
-    <section id="home" className={`hero-creative ${isDark ? 'dark-mood' : 'light-mood'}`}>
+    <section id="home" className={`hero-creative ${isDark ? 'dark-mood' : 'light-mood'}`} style={{ scrollMarginTop: '80px' }}>
       <BackgroundAnimation />
       <motion.header
         className="hero-header"
