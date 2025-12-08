@@ -72,10 +72,10 @@ export function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-[#ffeb3b]/80">Community</h4>
             <div className="flex flex-col gap-3">
               {socials.map(({ label, icon: Icon, href }) => (
-                <Link 
-                  key={label} 
-                  href={href} 
-                  target="_blank" 
+                <Link
+                  key={label}
+                  href={href}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 text-sm text-black/70 transition-colors hover:text-black dark:text-[#ffeb3b]/80 dark:hover:text-[#ffeb3b]"
                 >
