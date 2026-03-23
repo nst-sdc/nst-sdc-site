@@ -27,3 +27,4 @@ sdc/
 │   └── theme-toggle-button.tsx
 └── public/
 ```
+
